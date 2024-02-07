@@ -238,12 +238,16 @@ def cuts_(
         num_buckets=num_buckets,
         force_overwrite=force_overwrite,
     )
+
     end = time.time()
     logger.info(f"Finished in {end-begin:.2f}s with {num_errors} errors")
 
     if enhanced_manifest is not None:
         logger.info(f"Saving enhanced cuts manifest to {enhanced_manifest}")
-        out_cuts = post_process_manifests(out_cuts, enhanced_dir)
+        import pdb
+
+        pdb.set_trace()
+        # out_cuts = post_process_manifests(out_cuts, enhanced_dir)
         out_cuts.to_file(enhanced_manifest)
 
 

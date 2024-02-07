@@ -179,13 +179,14 @@ class Enhancer:
                 else:
                     logging.info(f"File {save_path} already exists. Skipping.")
                 # add enhanced recording to list
-                enhanced_recordings.append(Recording.from_file(out_dir / save_path))
+                reco = Recording.from_file(out_dir / save_path)
+                enhanced_recordings.append(reco)
                 # modify supervision channels since enhanced recording has only 1 channel
                 enhanced_supervisions.extend(
                     [
                         SupervisionSegment(
-                            id=str(save_path),
-                            recording_id=str(save_path),
+                            id=reco.id,
+                            recording_id=reco.id,
                             start=segment.start,
                             duration=segment.duration,
                             channel=0,
@@ -265,6 +266,7 @@ class Enhancer:
                     )
                     raise cp.cuda.memory.OutOfMemoryError
 
+                # result = _save_worker(batch.orig_cuts, x_hat, batch.recording_id, batch.speaker)
                 # Save the enhanced cut to disk
                 futures.append(
                     executor.submit(
